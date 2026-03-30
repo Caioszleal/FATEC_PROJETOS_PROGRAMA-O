@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <iomanip>
+
 using namespace std;
 
 struct Produto {
@@ -9,77 +10,95 @@ struct Produto {
     double preco;
 };
 
+string verificarEstoqueCritico(int quantidade) {
+    if (quantidade < 5) {
+        return " [REPOSIÇÃO NECESSÁRIA]";
+    }
+    return "";
+}
+
+void exibirCabecalho() {
+    cout << "==================================" << endl;
+    cout << "       SORVETERIA DO CACA 🍦" << endl;
+    cout << "==================================" << endl;
+}
+
 int main() {
+
     vector<Produto> produtos;
     int opcao;
 
     while (true) {
-        cout << "\n=== Gerenciador de Estoque ===\n";
-        cout << "1 - Adicionar produto\n";
-        cout << "2 - Listar produtos\n";
-        cout << "3 - Fechamento do estoque\n";
-        cout << "4 - Sair\n";
-        cout << "Escolha: ";
+
+        exibirCabecalho();
+
+        cout << "\n--- Gerenciador de Estoque ---" << endl;
+        cout << "1 - Adicionar novo produto" << endl;
+        cout << "2 - Listar produtos" << endl;
+        cout << "3 - Fechamento do estoque" << endl;
+        cout << "4 - Sair" << endl;
+        cout << "Escolha uma opção: ";
         cin >> opcao;
         cin.ignore();
 
         if (opcao == 1) {
             Produto p;
 
-            cout << "Nome: ";
+            cout << "Nome do produto: ";
             getline(cin, p.nome);
 
-            cout << "Quantidade: ";
+            cout << "Quantidade em estoque: ";
             cin >> p.quantidade;
 
-            cout << "Preço: ";
+            cout << "Preço unitário: ";
             cin >> p.preco;
 
-            produtos.push_back(p);
-            cout << "Produto cadastrado! ✅\n";
-        }
+            if (p.quantidade < 0) {
+                cout << "Erro: quantidade não pode ser negativa!" << endl;
+            } else {
+                produtos.push_back(p);
+                cout << "Produto cadastrado com sucesso ✅" << endl;
+            }
 
-        else if (opcao == 2) {
+        } else if (opcao == 2) {
+
             if (produtos.empty()) {
-                cout << "Nenhum produto cadastrado.\n";
+                cout << "Nenhum produto cadastrado." << endl;
             } else {
                 for (auto &p : produtos) {
-                    string alerta = (p.quantidade < 5) ? " [REPOSIÇÃO NECESSÁRIA]" : "";
 
-                    cout << "Produto: " << p.nome << alerta << endl;
+                    string alerta = verificarEstoqueCritico(p.quantidade);
+
+                    cout << "\nProduto: " << p.nome << alerta << endl;
                     cout << "Quantidade: " << p.quantidade << endl;
-                    cout << "Preço: R$ " << fixed << setprecision(2) << p.preco << endl;
-                    cout << "---------------------\n";
+                    cout << fixed << setprecision(2);
+                    cout << "Preço: R$ " << p.preco << endl;
                 }
             }
-        }
 
-        else if (opcao == 3) {
+        } else if (opcao == 3) {
+
             double total = 0;
-
-            cout << "\n=== FECHAMENTO DO ESTOQUE ===\n";
 
             for (auto &p : produtos) {
                 double subtotal = p.quantidade * p.preco;
                 total += subtotal;
 
-                string alerta = (p.quantidade < 5) ? " [REPOSIÇÃO NECESSÁRIA]" : "";
+                string alerta = verificarEstoqueCritico(p.quantidade);
 
-                cout << p.nome << " - Qtd: " << p.quantidade
-                     << " - Valor: R$ " << fixed << setprecision(2)
-                     << subtotal << alerta << endl;
+                cout << p.nome << alerta << endl;
+                cout << "Valor: R$ " << fixed << setprecision(2) << subtotal << endl;
             }
 
-            cout << "\nValor total: R$ " << fixed << setprecision(2) << total << endl;
-        }
+            cout << "\nValor total em estoque: R$ " << total << endl;
 
-        else if (opcao == 4) {
-            cout << "Encerrando... 👋\n";
+        } else if (opcao == 4) {
+
+            cout << "Encerrando o sistema... 👋" << endl;
             break;
-        }
 
-        else {
-            cout << "Opção inválida!\n";
+        } else {
+            cout << "Opção inválida!" << endl;
         }
     }
 
