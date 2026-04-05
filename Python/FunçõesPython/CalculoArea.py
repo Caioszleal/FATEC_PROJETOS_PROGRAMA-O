@@ -16,6 +16,6 @@ def verificar_paridade(altura, largura):
 
 altura = float(input("Coloque o valor da altura em metros: "))
 largura = float(input("Coloque o valor da largura em metros: "))
-area = verificar_paridade()(altura, largura)
+area = verificar_paridade(altura, largura)
 print(f"O valor da área do retângulo é {area}m²")
 
