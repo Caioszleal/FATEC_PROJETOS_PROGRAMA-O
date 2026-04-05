@@ -1,2 +1,2 @@
 # FATEC_PROJETOS_PROGRAMA-O
-Projetos realizados na fatec.
+Repertório usado para os Projetos realizados na fatec.
